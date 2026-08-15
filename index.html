@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Phaedra 30 — Gooi je zorgen overboord</title>
+<meta name="description" content="Een cadeau voor Phaedra: één nacht op Stadscamping Overboord in Den Bosch, en de ochtend erna ontbijten bij Amber & Tijs." />
+<meta name="theme-color" content="#061a52" />
+<link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Phaedra 30 — Gooi je zorgen overboord" />
+<meta property="og:description" content="Eén nacht aan het water in Den Bosch. Van Amber & Tijs." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@500;700&family=Montserrat+Alternates:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="./src/styles/main.css" />
+</head>
+
+<body class="is-locked">
+
+<!-- ============ 3D WERELD ============ -->
+<canvas id="webgl" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- ============ LAADSCHERM / CADEAU OPENEN ============ -->
+<div class="intro" id="intro">
+  <div class="intro__inner">
+    <p class="intro__eyebrow">Voor Phaedra <span class="intro__dot"></span> van Amber &amp; Tijs</p>
+
+    <div class="intro__ring" aria-hidden="true">
+      <svg viewBox="0 0 200 200" class="intro__ringsvg">
+        <defs>
+          <path id="ringpath" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0" />
+        </defs>
+        <circle cx="100" cy="100" r="62" class="ring-buoy" />
+        <circle cx="100" cy="100" r="62" class="ring-buoy-dash" />
+        <text class="ring-text"><textPath href="#ringpath" startOffset="0%">GOOI JE ZORGEN OVERBOORD · GOOI JE ZORGEN OVERBOORD · </textPath></text>
+      </svg>
+      <span class="intro__age">30</span>
+    </div>
+
+    <h1 class="intro__title">Er ligt iets<br />voor je klaar</h1>
+
+    <button class="intro__btn" id="intro-btn" type="button">
+      <span class="intro__btn-label">Gooi het overboord</span>
+      <span class="intro__btn-splash" aria-hidden="true"></span>
+    </button>
+
+    <p class="intro__loading" id="intro-loading">de wereld wordt opgetuigd…</p>
+    <p class="intro__hint">zet het geluid van je omgeving even zachter <span aria-hidden="true">·</span> beste beleving op een groot scherm</p>
+  </div>
+</div>
+
+<!-- ============ VOORTGANG / HOOFDSTUKKEN ============ -->
+<nav class="chapters" id="chapters" aria-label="Hoofdstukken">
+  <ol class="chapters__list">
+    <li><a href="#hoofdstuk-nacht" data-chapter="0"><span class="chapters__bar"></span><span class="chapters__label">De nacht</span></a></li>
+    <li><a href="#hoofdstuk-cadeau" data-chapter="1"><span class="chapters__bar"></span><span class="chapters__label">Het cadeau</span></a></li>
+    <li><a href="#hoofdstuk-plek" data-chapter="2"><span class="chapters__bar"></span><span class="chapters__label">De plek</span></a></li>
+    <li><a href="#hoofdstuk-ochtend" data-chapter="3"><span class="chapters__bar"></span><span class="chapters__label">De ochtend</span></a></li>
+    <li><a href="#hoofdstuk-inwisselen" data-chapter="4"><span class="chapters__bar"></span><span class="chapters__label">Inwisselen</span></a></li>
+  </ol>
+</nav>
+
+<!-- ============ INHOUD ============ -->
+<main id="content" class="content">
+
+  <!-- ---------- 1. HERO ---------- -->
+  <section class="sec sec--hero" id="hoofdstuk-nacht">
+    <div class="hero">
+      <p class="hero__eyebrow reveal">15 augustus <span aria-hidden="true">—</span> dertig jaar</p>
+      <h1 class="hero__name" aria-label="Phaedra">
+        <span class="reveal" style="--i:0">P</span><span class="reveal" style="--i:1">H</span><span class="reveal" style="--i:2">A</span><span class="reveal" style="--i:3">E</span><span class="reveal" style="--i:4">D</span><span class="reveal" style="--i:5">R</span><span class="reveal" style="--i:6">A</span>
+      </h1>
+      <p class="hero__tag reveal" style="--i:7">Gooi je zorgen overboord</p>
+    </div>
+
+    <div class="scrollcue" aria-hidden="true">
+      <span class="scrollcue__text">scroll</span>
+      <span class="scrollcue__line"></span>
+    </div>
+  </section>
+
+  <!-- ---------- 2. HET CADEAU ---------- -->
+  <section class="sec sec--right" id="hoofdstuk-cadeau">
+    <div class="card">
+      <p class="card__kicker reveal">Hoofdstuk één</p>
+      <h2 class="card__title reveal" style="--i:1">Eén nacht<br /><em>aan het water</em></h2>
+      <p class="card__body reveal" style="--i:2">
+        Jullie krijgen een overnachting op <strong>Stadscamping Overboord</strong> in Den Bosch.
+        Een camperplaats met je neus naar het water, stroom op de plek en het sanitair om de hoek.
+        Voor jullie tweeën <span aria-hidden="true">—</span> Phaedra &amp; Nils <span aria-hidden="true">—</span> en natuurlijk gaat de hond gewoon mee.
+      </p>
+
+      <ul class="specs reveal" style="--i:3">
+        <li class="spec">
+          <span class="spec__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg>
+          </span>
+          <span class="spec__text"><b>1 nacht</b><i>camperplaats aan het water</i></span>
+        </li>
+        <li class="spec">
+          <span class="spec__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.2"/><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5M16 15.4c2.6.4 4.5 2.2 4.5 4.6"/></svg>
+          </span>
+          <span class="spec__text"><b>2 personen + hond</b><i>iedereen is gelijk op de camping</i></span>
+        </li>
+        <li class="spec">
+          <span class="spec__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          </span>
+          <span class="spec__text"><b>Datum kies je zelf</b><i>wanneer het jullie uitkomt</i></span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ---------- 3. DE PLEK ---------- -->
+  <section class="sec sec--left" id="hoofdstuk-plek">
+    <div class="card">
+      <p class="card__kicker reveal">Hoofdstuk twee</p>
+      <h2 class="card__title reveal" style="--i:1">Stadscamping<br /><em>Overboord</em></h2>
+      <p class="card__body reveal" style="--i:2">
+        Camping vibes in hartje Den Bosch. Op de plek waar vroeger de sluiswachter woonde en
+        de sluisdeuren opendraaide voor de schepen die de stad in voeren. Midden in het centrum,
+        en tegelijk een oase van rust aan het water.
+      </p>
+
+      <ul class="pills reveal" style="--i:3">
+        <li>Terras met stadsstrand</li>
+        <li>Koffie in het oude sluiswachtershuis</li>
+        <li>Café in de kas</li>
+        <li>Op loopafstand van de Sint-Jan</li>
+      </ul>
+
+      <a class="link" href="https://www.stadscampingoverboord.nl/" target="_blank" rel="noopener noreferrer">
+        <span>stadscampingoverboord.nl</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+      <p class="card__note reveal" style="--i:4">Van Veldekekade 35a, Den Bosch</p>
+    </div>
+  </section>
+
+  <!-- ---------- 4. DE OCHTEND ---------- -->
+  <section class="sec sec--right sec--dawn" id="hoofdstuk-ochtend">
+    <div class="card">
+      <p class="card__kicker reveal">Hoofdstuk drie</p>
+      <h2 class="card__title reveal" style="--i:1">En de ochtend<br /><em>erna…</em></h2>
+      <p class="card__body reveal" style="--i:2">
+        Rijden jullie uitgeslapen (of niet) naar ons toe. Wij zetten koffie, halen verse broodjes
+        en dekken de tafel. Jullie hoeven alleen maar aan te schuiven — en de hond krijgt ook wat.
+      </p>
+      <p class="card__big reveal" style="--i:3">Ontbijt bij <em>Amber &amp; Tijs</em></p>
+    </div>
+  </section>
+
+  <!-- ---------- 5. INWISSELEN ---------- -->
+  <section class="sec sec--center" id="hoofdstuk-inwisselen">
+    <div class="card card--wide">
+      <p class="card__kicker reveal">Zo wissel je 'm in</p>
+      <h2 class="card__title card__title--center reveal" style="--i:1">Drie stappen</h2>
+
+      <ol class="steps">
+        <li class="step reveal" style="--i:2"><span class="step__num">01</span><h3>Kies een datum</h3><p>Zoek een weekend dat jullie uitkomt. Het hele jaar door geldig.</p></li>
+        <li class="step reveal" style="--i:3"><span class="step__num">02</span><h3>Laat het ons weten</h3><p>Een appje is genoeg. Wij regelen de boeking bij de camping.</p></li>
+        <li class="step reveal" style="--i:4"><span class="step__num">03</span><h3>Camper inpakken</h3><p>Hond achterin, koelbox mee. De rest komt vanzelf goed.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ---------- 6. BRIEF ---------- -->
+  <section class="sec sec--letter" id="hoofdstuk-brief">
+    <div class="letter">
+      <p class="letter__body reveal">
+        Lieve Phaedra,
+      </p>
+      <p class="letter__body reveal" style="--i:1">
+        Dertig. We wilden je iets geven dat geen plek inneemt in je kast: een nacht weg,
+        vlak bij huis, met je neus in de wind en het water voor je. Even niks moeten.
+      </p>
+      <p class="letter__body reveal" style="--i:2">
+        Gooi je zorgen overboord — wij zien jullie de ochtend erna aan tafel.
+      </p>
+      <p class="letter__sign reveal" style="--i:3">Liefs, Amber &amp; Tijs</p>
+    </div>
+
+    <footer class="footer">
+      <p class="footer__mark" aria-hidden="true">30</p>
+      <p class="footer__meta">Gemaakt met veel water en een beetje code <span aria-hidden="true">·</span> 2026</p>
+    </footer>
+  </section>
+
+</main>
+
+<button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false" title="Beweging aan/uit">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 13c2.5-3 5-3 7.5 0S15 16 17.5 13 22 10 22 10"/><path d="M2 18c2.5-3 5-3 7.5 0s5 3 7.5 0 4.5-3 4.5-3"/></svg>
+  <span class="visually-hidden">Beweging aan of uit zetten</span>
+</button>
+
+<noscript>
+  <div class="noscript">
+    <h2>Zet JavaScript aan</h2>
+    <p>Deze pagina is een 3D-wereld en heeft JavaScript nodig. Maar het cadeau blijft hetzelfde:
+    één nacht op Stadscamping Overboord in Den Bosch voor Phaedra, Nils en de hond, plus ontbijt bij Amber &amp; Tijs de ochtend erna.</p>
+  </div>
+</noscript>
+
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
