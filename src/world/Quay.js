@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { PALETTE, GROUND_Y } from '../config.js'
+import { PALETTE, GROUND_Y, BOAT_POS } from '../config.js'
 import { makeRandom, clamp } from '../utils/math.js'
 import { mergeGeometries } from './Skyline.js'
 
@@ -45,6 +45,53 @@ export default class Quay {
     this.#buildGreenhouse()
     this.#buildBeach(rand)
     this.#buildLampPosts()
+    this.#buildRowboat()
+  }
+
+  /* ---------------- afgemeerd roeibootje ---------------- */
+  #buildRowboat() {
+    const g = new THREE.Group()
+    g.position.set(...BOAT_POS)
+    g.rotation.y = 0.42
+
+    // romp: onderste helft van een bol, uitgerekt tot een sloep
+    const hullGeo = new THREE.SphereGeometry(1, 18, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2)
+    hullGeo.scale(0.62, 0.40, 1.75)
+    const hull = new THREE.Mesh(hullGeo, this.mats.wood)
+    hull.material.side = THREE.DoubleSide
+    g.add(hull)
+
+    // dolboord
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(1, 0.045, 6, 26), this.mats.wood)
+    rim.rotation.x = Math.PI / 2
+    rim.scale.set(0.62, 1.75, 1)
+    g.add(rim)
+
+    // twee doften
+    for (const z of [-0.55, 0.5]) {
+      const bench = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.05, 0.22), this.mats.wood)
+      bench.position.set(0, -0.06, z)
+      bench.scale.x = 1 - Math.abs(z) * 0.22
+      g.add(bench)
+    }
+
+    // riemen, schuin in het bootje
+    for (const s of [-1, 1]) {
+      const oar = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.022, 1.9, 6), this.mats.wood)
+      oar.position.set(s * 0.22, -0.02, 0.15)
+      oar.rotation.set(0.12, s * 0.2, Math.PI / 2 - 0.06)
+      g.add(oar)
+    }
+
+    // meerpaaltje ernaast, anders drijft hij nergens aan vast
+    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.11, 2.6, 8), this.mats.wood)
+    pole.position.set(1.1, 0.2, -1.4)
+    g.add(pole)
+
+    g.scale.setScalar(1.2)
+    this.rowboat = g
+    this.boatMotion = { y: 0, roll: 0 }
+    this.group.add(g)
   }
 
   /* ---------------- grond & kademuur ---------------- */
@@ -383,6 +430,17 @@ export default class Quay {
 
   update(elapsed) {
     this.uniforms.uTime.value = elapsed
+
+    // het bootje deint op de golven; Basiel deint mee
+    if (this.rowboat) {
+      const y = Math.sin(elapsed * 0.85) * 0.075 + Math.sin(elapsed * 1.7) * 0.025
+      const roll = Math.sin(elapsed * 0.62) * 0.055
+      this.rowboat.position.y = BOAT_POS[1] + y
+      this.rowboat.rotation.z = roll
+      this.rowboat.rotation.x = Math.sin(elapsed * 0.74) * 0.03
+      this.boatMotion.y = y
+      this.boatMotion.roll = roll
+    }
     // lantaarns en ramen ademen heel licht
     for (const p of this.pointLights) {
       p.light.intensity = p.base * this.lampScale * (1 + Math.sin(elapsed * 2.1 + p.base) * p.flicker)

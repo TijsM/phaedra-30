@@ -109,9 +109,16 @@ export default class Experience {
     const h = window.innerHeight
     const dpr = this.dpr
 
-    this.camera.aspect = w / h
-    // op een smal scherm iets ruimer kaderen, anders zie je alleen camper
-    this.camera.fov = w / h < 0.85 ? 62 : 48
+    const aspect = w / h
+    this.camera.aspect = aspect
+    // Smal scherm = smal blikveld. Een bredere FOV zou hier juist uitzoomen
+    // en alles als een postzegel tonen; op een telefoon willen we er
+    // dichter bovenop zitten.
+    this.camera.fov =
+      aspect < 0.70 ? 38 :   // telefoon staand
+      aspect < 0.95 ? 42 :   // smalle tablet
+      aspect < 1.35 ? 46 :   // vierkant-ish
+      48                     // laptop en breder
     this.camera.updateProjectionMatrix()
 
     this.renderer.setPixelRatio(dpr)

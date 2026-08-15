@@ -26,6 +26,34 @@ export const CAMPER_POS = [-1.5, GROUND_Y, 27]
 /** De ontbijttafel, een eindje naast de camper. */
 export const TABLE_POS = [7.6, GROUND_Y, 26.4]
 
+/** Het roeibootje dat verderop op het water ligt afgemeerd. */
+export const BOAT_POS = [-6, 0.28, -49]
+
+/**
+ * De route van Basiel, de teckel.
+ *
+ * Hij is het hele verhaal in beeld: eerst voorop in het bootje op het
+ * water (daar kijkt de camera in het begin naartoe), daarna op de kade
+ * bij de camper, en 's ochtends naast de ontbijttafel.
+ *
+ * `sit` 0→1 = staan → zitten, `walk` 0→1 = stilstaan → trippelen.
+ * Een sleutel met `cut: true` springt hard in plaats van te schuiven; dat
+ * gebeurt op t≈0.21, als de camera nog van de kade weg kijkt.
+ */
+export const DOG_TRACK = [
+  { t: 0.00, pos: [-6.0, 0.24, -48.4], rotY: 1.44, sit: 1, walk: 0, boat: true },
+  { t: 0.18, pos: [-6.0, 0.24, -48.4], rotY: 1.30, sit: 1, walk: 0, boat: true },
+  { t: 0.21, pos: [4.6, GROUND_Y, 22.6], rotY: -0.60, sit: 0, walk: 1, cut: true },
+  { t: 0.34, pos: [2.6, GROUND_Y, 23.0], rotY: -0.85, sit: 0, walk: 1 },
+  { t: 0.46, pos: [0.4, GROUND_Y, 23.4], rotY: -1.15, sit: 0, walk: 0.5 },
+  { t: 0.56, pos: [0.2, GROUND_Y, 22.6], rotY: -1.20, sit: 0, walk: 0.7 },
+  { t: 0.64, pos: [2.0, GROUND_Y, 21.8], rotY: 0.55, sit: 0, walk: 0 },    // driekwart, staand: zo zie je de teckel
+  { t: 0.74, pos: [-4.2, GROUND_Y, 23.9], rotY: -2.10, sit: 1, walk: 0 },
+  { t: 0.84, pos: [-0.6, GROUND_Y, 23.2], rotY: -0.70, sit: 0, walk: 1 },
+  { t: 0.93, pos: [6.5, GROUND_Y, 25.5], rotY: -0.30, sit: 1, walk: 0 },   // hoopvol naast de tafel
+  { t: 1.00, pos: [4.6, GROUND_Y, 23.4], rotY: -0.40, sit: 0, walk: 0.6 },
+]
+
 /**
  * De hemel over het verhaal heen: van diepe nacht naar ochtendlicht.
  * `t` is de scrollvoortgang (0 → 1).
@@ -79,16 +107,18 @@ export const SKY_KEYS = [
  */
 export const CAMERA_TRACK = [
   // De hele reis speelt zich af bóven het water (z < 18), zodat de kade,
-  // de camper en de stad steeds mét water in beeld komen.
-  { t: 0.00, pos: [1, 7.0, -34], look: [-5, 11.0, -175] },   // ver op het water, de stad aan de horizon
-  { t: 0.13, pos: [13, 5.6, -29], look: [-15, 9.0, -168] },  // zijwaarts drijven, het maanpad schuift mee
-  { t: 0.28, pos: [27, 4.8, -13], look: [4, 4.5, 24] },      // draaien naar de kade
-  { t: 0.42, pos: [14, 3.6, 8], look: [-1, 3.0, 27] },       // de camper, water op de voorgrond
-  { t: 0.55, pos: [6, 2.9, 13], look: [-1.5, 2.7, 27] },     // dichterbij: luifel uit, lichtjes aan
-  { t: 0.70, pos: [-17, 4.4, 5], look: [6, 3.6, 40] },       // langs de kade: de kas en het sluiswachtershuis
-  { t: 0.82, pos: [-6, 7.6, 4], look: [2, 8.5, -150] },      // omhoog en terug naar het water: zonsopgang
-  { t: 0.92, pos: [9.8, 3.0, 20.5], look: [7.6, 2.35, 26.4] },// de ontbijttafel
-  { t: 1.00, pos: [7, 26, 62], look: [0, 2, 6] },            // weg omhoog, alles in één beeld
+  // de camper en de stad steeds mét water in beeld komen. De standen zijn
+  // krap gekozen: op een telefoon is het beeld smal.
+  { t: 0.00, pos: [1, 4.6, -34], look: [-5, 11.0, -175] },    // op het water, de stad aan de horizon
+  { t: 0.13, pos: [10, 4.4, -31], look: [-14, 8.5, -168] },   // zijwaarts drijven, het maanpad schuift mee
+  { t: 0.28, pos: [22, 4.4, -8], look: [2, 4.0, 25] },        // draaien naar de kade
+  { t: 0.42, pos: [11, 3.3, 12], look: [-1, 2.9, 27] },       // de camper, water op de voorgrond
+  { t: 0.54, pos: [4.5, 2.7, 16.5], look: [-1.8, 2.6, 27] },  // dichterbij: luifel uit, lichtjes aan
+  { t: 0.64, pos: [3.4, 3.05, 14.8], look: [2.0, 2.15, 21.8] },  // Basiel groot in beeld
+  { t: 0.74, pos: [-14, 3.9, 8], look: [5, 3.4, 38] },        // langs de kade: de kas en het sluiswachtershuis
+  { t: 0.84, pos: [-6, 7.0, 4], look: [2, 8.0, -150] },       // omhoog en terug naar het water: zonsopgang
+  { t: 0.93, pos: [9.6, 3.05, 21.4], look: [7.1, 2.25, 25.9] },// de ontbijttafel, met Basiel ernaast
+  { t: 1.00, pos: [6, 21, 52], look: [0, 2, 8] },             // weg omhoog, alles in één beeld
 ]
 
 /** Kwaliteitsniveaus — bepaald op basis van het apparaat. */

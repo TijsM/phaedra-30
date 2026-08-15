@@ -9,6 +9,7 @@ import Skyline from './Skyline.js'
 import Quay from './Quay.js'
 import Camper from './Camper.js'
 import Breakfast from './Breakfast.js'
+import Dog from './Dog.js'
 import Fireflies from './Fireflies.js'
 import Confetti from './Confetti.js'
 import CameraRig from './CameraRig.js'
@@ -60,6 +61,7 @@ export default class Director {
     this.quay = new Quay({ quality: this.qualityName })
     this.camper = new Camper()
     this.breakfast = new Breakfast()
+    this.dog = new Dog()
     this.fireflies = new Fireflies(this.quality.fireflies)
     this.confetti = new Confetti(this.quality.confetti)
 
@@ -71,6 +73,7 @@ export default class Director {
       this.quay.group,
       this.camper.group,
       this.breakfast.group,
+      this.dog.group,
       this.fireflies.points,
       this.confetti.mesh,
     )
@@ -162,6 +165,9 @@ export default class Director {
     this.quay.update(elapsed)
     this.camper.update(elapsed, dt)
     this.breakfast.update(elapsed)
+    // Basiel loopt het verhaal mee: eerst in het bootje, dan over de kade
+    this.dog.place(t)
+    this.dog.update(elapsed, this.quay.boatMotion)
     this.fireflies.update(elapsed)
     this.confetti.update(elapsed)
 
@@ -170,7 +176,7 @@ export default class Director {
 
   dispose() {
     for (const part of [this.sky, this.stars, this.water, this.skyline,
-      this.quay, this.camper, this.breakfast, this.fireflies, this.confetti]) {
+      this.quay, this.camper, this.breakfast, this.dog, this.fireflies, this.confetti]) {
       part.dispose?.()
     }
   }

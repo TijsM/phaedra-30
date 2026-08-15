@@ -622,11 +622,39 @@ body.is-still .scrollcue__line { animation-play-state: paused; }
 }
 
 @media (max-width: 700px) {
-  .card { backdrop-filter: blur(14px); }
-  .sec { padding-inline: 1.15rem; }
-  .sec--right, .sec--left { justify-content: center; }
+  /* Op een telefoon is het beeld smal: laat de 3D-wereld de bovenkant
+     houden en zet de tekst als een onderschrift onderin, in plaats van
+     midden over de scène heen. */
+  .sec {
+    padding-inline: 1.15rem;
+    padding-block: 3rem 1.6rem;
+    align-items: flex-end;
+  }
+  .sec--right, .sec--left, .sec--center { justify-content: center; }
+  .sec--hero { align-items: center; }
+  .sec--letter { justify-content: flex-end; }
+
+  .card {
+    backdrop-filter: blur(14px);
+    max-width: 100%;
+    padding: 1.35rem 1.25rem 1.5rem;
+    border-radius: 18px;
+  }
+  .card::before { left: 1.25rem; width: 46px; height: 6px; }
+  .card__title { font-size: clamp(1.9rem, 9vw, 2.6rem); }
+  .card__body { font-size: 0.97rem; line-height: 1.5; }
+
+  .specs { margin-top: 1.2rem; gap: 0.65rem; }
+  .spec__icon { width: 36px; height: 36px; border-radius: 10px; }
+  .spec__icon svg { width: 18px; height: 18px; }
+
+  .steps { margin-top: 1.4rem; gap: 1rem; grid-template-columns: 1fr; }
+  .step { padding-top: 0.9rem; }
+  .step__num { font-size: 1.6rem; margin-bottom: 0.25rem; }
+
   .hero__name { letter-spacing: 0.01em; }
   .grain { opacity: 0.1; }
+  .footer { margin-top: 3.5rem; }
 }
 
 @media (hover: none) {
