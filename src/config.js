@@ -112,12 +112,12 @@ export const CAMERA_TRACK = [
   { t: 0.00, pos: [1, 4.6, -34], look: [-5, 11.0, -175] },    // op het water, de stad aan de horizon
   { t: 0.13, pos: [10, 4.4, -31], look: [-14, 8.5, -168] },   // zijwaarts drijven, het maanpad schuift mee
   { t: 0.28, pos: [22, 4.4, -8], look: [2, 4.0, 25] },        // draaien naar de kade
-  { t: 0.42, pos: [11, 3.3, 12], look: [-1, 2.9, 27] },       // de camper, water op de voorgrond
-  { t: 0.54, pos: [4.5, 2.7, 16.5], look: [-1.8, 2.6, 27] },  // dichterbij: luifel uit, lichtjes aan
-  { t: 0.64, pos: [3.4, 3.05, 14.8], look: [2.0, 2.15, 21.8] },  // Basiel groot in beeld
-  { t: 0.74, pos: [-14, 3.9, 8], look: [5, 3.4, 38] },        // langs de kade: de kas en het sluiswachtershuis
+  { t: 0.42, pos: [11, 4.4, 12.5], look: [-1, 2.8, 27] },     // de camper, water op de voorgrond
+  { t: 0.54, pos: [4.5, 4.15, 17.5], look: [-1.8, 2.45, 27] },// dichterbij: luifel uit, lichtjes aan
+  { t: 0.64, pos: [3.6, 3.55, 14.2], look: [2.0, 1.95, 21.8] }, // Basiel groot in beeld
+  { t: 0.74, pos: [-14, 4.8, 8], look: [5, 3.2, 38] },        // langs de kade: de kas en het sluiswachtershuis
   { t: 0.84, pos: [-6, 7.0, 4], look: [2, 8.0, -150] },       // omhoog en terug naar het water: zonsopgang
-  { t: 0.93, pos: [9.6, 3.05, 21.4], look: [7.1, 2.25, 25.9] },// de ontbijttafel, met Basiel ernaast
+  { t: 0.93, pos: [9.6, 3.55, 21.0], look: [7.1, 2.20, 25.9] },// de ontbijttafel, met Basiel ernaast
   { t: 1.00, pos: [6, 21, 52], look: [0, 2, 8] },             // weg omhoog, alles in één beeld
 ]
 

@@ -111,15 +111,20 @@ export default class Experience {
 
     const aspect = w / h
     this.camera.aspect = aspect
-    // Smal scherm = smal blikveld. Een bredere FOV zou hier juist uitzoomen
-    // en alles als een postzegel tonen; op een telefoon willen we er
-    // dichter bovenop zitten.
-    this.camera.fov =
-      aspect < 0.70 ? 38 :   // telefoon staand
-      aspect < 0.95 ? 42 :   // smalle tablet
-      aspect < 1.35 ? 46 :   // vierkant-ish
-      48                     // laptop en breder
+
+    // Hoe smaller het scherm, hoe kleiner het horizontale blikveld. Dat los
+    // je niet op met de FOV — die opendraaien maakt alles juist klein. In
+    // plaats daarvan zet de camera een stap terug, zodat het onderwerp
+    // helemaal in beeld past en toch groot blijft.
+    const [fov, backOff, backOffMax] =
+      aspect < 0.70 ? [52, 0.35, 10] :  // telefoon staand
+      aspect < 0.95 ? [50, 0.22, 8] :   // smalle tablet
+      aspect < 1.35 ? [48, 0.10, 5] :   // vierkant-ish
+      [47, 0, 0]                        // laptop en breder
+
+    this.camera.fov = fov
     this.camera.updateProjectionMatrix()
+    this.director.rig.setBackOff(backOff, backOffMax)
 
     this.renderer.setPixelRatio(dpr)
     this.renderer.setSize(w, h, false)

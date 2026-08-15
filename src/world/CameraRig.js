@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { CAMERA_TRACK } from '../config.js'
-import { sampleTrack, damp, clamp } from '../utils/math.js'
+import { sampleTrack, damp, clamp, smoothstep } from '../utils/math.js'
 
 /**
  * Stuurt de camera langs de vaste reis uit config.js, met daar bovenop
@@ -17,6 +17,8 @@ export default class CameraRig {
     this.pointerTarget = new THREE.Vector2()
     this.motion = 1
     this.first = true
+    this.backOff = 0
+    this.backOffMax = 10
 
     sampleTrack(CAMERA_TRACK, 'pos', 0, this.smoothPos)
     sampleTrack(CAMERA_TRACK, 'look', 0, this.smoothLook)
@@ -29,9 +31,37 @@ export default class CameraRig {
   /** 0 = alles stil (voor wie liever geen beweging heeft), 1 = normaal. */
   setMotion(v) { this.motion = clamp(v) }
 
+  /**
+   * Hoeveel de camera een stap terug doet.
+   *
+   * Op een smal scherm is het horizontale blikveld nu eenmaal klein: een
+   * camper van vijf meter past er op tien meter afstand gewoon niet in.
+   * De FOV opschroeven maakt alles klein; een stap achteruit houdt het
+   * onderwerp groot én compleet in beeld.
+   *
+   * @param {number} factor deel van de kijkafstand, 0 = niets doen
+   * @param {number} max    hoeveel meter maximaal
+   */
+  setBackOff(factor, max = 10) {
+    this.backOff = factor
+    this.backOffMax = max
+  }
+
   update(t, elapsed, dt) {
     sampleTrack(CAMERA_TRACK, 'pos', t, this.pos)
     sampleTrack(CAMERA_TRACK, 'look', t, this.look)
+
+    // stap terug op smalle schermen — alleen bij beelden met een onderwerp
+    // dichtbij; een vergezicht over het water heeft het niet nodig
+    if (this.backOff > 0) {
+      const away = _away.copy(this.pos).sub(this.look)
+      const dist = away.length()
+      if (dist > 0.01) {
+        const nearby = 1 - smoothstep(30, 48, dist)
+        const extra = Math.min(dist * this.backOff, this.backOffMax) * nearby
+        this.pos.addScaledVector(away.divideScalar(dist), extra)
+      }
+    }
 
     const m = this.motion
 
@@ -66,3 +96,5 @@ export default class CameraRig {
     this.camera.rotation.z += Math.sin(elapsed * 0.37) * 0.006 * m
   }
 }
+
+const _away = new THREE.Vector3()
