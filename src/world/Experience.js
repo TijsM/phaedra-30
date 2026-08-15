@@ -51,14 +51,18 @@ export default class Experience {
     this.director = new Director(this.scene, this.camera, this.qualityName)
 
     /* ---- compositor ---- */
+    // Geen MSAA op deze target: samples > 0 in combinatie met UnrealBloomPass
+    // levert een volledig leeg frame op (de bloom-pass schrijft additief terug
+    // in dezelfde multisample-target die hij ook uitleest). De randen worden
+    // opgevangen door een hogere pixelratio, niet door multisampling.
     this.composer = new EffectComposer(this.renderer, new THREE.WebGLRenderTarget(1, 1, {
       type: THREE.HalfFloatType,
-      samples: this.qualityName === 'high' ? 4 : 0,
+      samples: 0,
     }))
     this.composer.addPass(new RenderPass(this.scene, this.camera))
 
     if (this.quality.bloom) {
-      this.bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.9, 0.55, 0.62)
+      this.bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.55, 0.42, 0.85)
       this.composer.addPass(this.bloom)
     }
     this.composer.addPass(new OutputPass())

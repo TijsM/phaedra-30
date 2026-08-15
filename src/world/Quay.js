@@ -29,7 +29,7 @@ export default class Quay {
       metal: new THREE.MeshStandardMaterial({ color: 0x2e3a4d, roughness: 0.45, metalness: 0.5 }),
       leaf:  new THREE.MeshStandardMaterial({ color: 0x27503c, roughness: 1 }),
       glow:  new THREE.MeshStandardMaterial({
-        color: 0x1a1408, emissive: PALETTE.lamp, emissiveIntensity: 2.4, roughness: 1,
+        color: 0x1a1408, emissive: PALETTE.lamp, emissiveIntensity: 1.0, roughness: 1,
       }),
       glass: new THREE.MeshStandardMaterial({
         color: 0x9fd8cf, emissive: 0x6fbfae, emissiveIntensity: 0.55,
@@ -131,13 +131,15 @@ export default class Quay {
       // in polletjes, links en rechts van de steiger
       const cx = -60 + rand() * 120
       if (cx > 14 && cx < 30) continue // steiger vrijhouden
-      const cz = SHORE_Z - 1.4 - rand() * 2.6
+      const cz = SHORE_Z - 0.7 - rand() * 1.8
       const clump = 5 + Math.floor(rand() * 7)
       for (let c = 0; c < clump && i < count; c++, i++) {
         dummy.position.set(cx + (rand() - 0.5) * 1.9, GROUND_Y - 1.5, cz + (rand() - 0.5) * 1.6)
         dummy.rotation.set((rand() - 0.5) * 0.16, rand() * Math.PI, (rand() - 0.5) * 0.22)
-        const h = 1.5 + rand() * 1.8
-        dummy.scale.set(1 + rand() * 0.5, h, 1 + rand() * 0.5)
+        // laag houden: hoog riet vlak voor de lens verstopt het hele kamp
+        const h = 0.55 + rand() * 0.75
+        const w = 0.6 + rand() * 0.4
+        dummy.scale.set(w, h, w)
         dummy.updateMatrix()
         mesh.setMatrixAt(i, dummy.matrix)
       }
@@ -216,10 +218,10 @@ export default class Quay {
       g.add(win)
     }
 
-    const lamp = new THREE.PointLight(PALETTE.lamp, 26, 26, 2)
+    const lamp = new THREE.PointLight(PALETTE.lamp, 9, 26, 2)
     lamp.position.set(0, 3.4, 4.2)
     g.add(lamp)
-    this.pointLights.push({ light: lamp, base: 26, flicker: 0.04 })
+    this.pointLights.push({ light: lamp, base: 9, flicker: 0.04 })
 
     this.lockHouse = g
     this.group.add(g)
@@ -271,10 +273,10 @@ export default class Quay {
     glass.renderOrder = 4
     g.add(glass)
 
-    const inner = new THREE.PointLight(0xa8e6c8, 22, 22, 2)
+    const inner = new THREE.PointLight(0xa8e6c8, 7, 22, 2)
     inner.position.set(0, 2.4, 0)
     g.add(inner)
-    this.pointLights.push({ light: inner, base: 22, flicker: 0.03 })
+    this.pointLights.push({ light: inner, base: 7, flicker: 0.03 })
 
     this.greenhouse = g
     this.group.add(g)
@@ -345,10 +347,10 @@ export default class Quay {
     }
 
     // één echte lamp bij de camper, de rest is alleen gloed
-    const light = new THREE.PointLight(PALETTE.lamp, 30, 30, 2)
+    const light = new THREE.PointLight(PALETTE.lamp, 11, 30, 2)
     light.position.set(-10, GROUND_Y + 5, SHORE_Z + 2.4)
     g.add(light)
-    this.pointLights.push({ light, base: 30, flicker: 0.02 })
+    this.pointLights.push({ light, base: 11, flicker: 0.02 })
 
     this.group.add(g)
   }
@@ -394,7 +396,7 @@ export default class Quay {
     this.leafMat.color.setHex(0x27503c).lerp(_day.setHex(0x4e8a52), day)
     const lit = clamp(1 - day * 1.15)
     this.lampScale = lit
-    this.mats.glow.emissiveIntensity = 2.4 * lit
+    this.mats.glow.emissiveIntensity = 1.0 * lit
     this.mats.glass.emissiveIntensity = 0.55 * lit + 0.1
   }
 

@@ -87,39 +87,57 @@ export default class Water {
           waveTerm(p, vec2( 1.0, -0.15),  4.1, 0.021, 3.0, uTime, grad);
           waveTerm(p, vec2( 0.15, 1.0),   2.3, 0.011, 4.4, uTime, grad);
 
-          // kabbelende ruis er bovenop
-          float n = fbm(p * 0.22 + vec2(uTime * 0.05, uTime * 0.03));
+          // kabbelende ruis er bovenop — één octaaf is genoeg, en het scheelt
+          // flink: deze shader draait over het hele scherm
+          float n = snoise(p * 0.22 + vec2(uTime * 0.05, uTime * 0.03));
           grad += vec2(dFdx(n), dFdy(n)) * 3.0;
 
           vec3 N = normalize(vec3(-grad.x * uChop, 1.0, -grad.y * uChop));
           vec3 V = normalize(cameraPosition - vWorld);
           vec3 L = normalize(uSunDir);
-          vec3 H = normalize(L + V);
+
+          // Let op: precies in het maanpad kijk je recht tégen het licht in,
+          // en dan is L + V nul. normalize(0) geeft NaN, en die NaN smeert de
+          // bloom-pass vervolgens over het hele beeld uit. Dus eerst meten.
+          vec3 hv = L + V;
+          float hlen = length(hv);
+          vec3 H = hlen > 1e-4 ? hv / hlen : N;
+          // en als hij niet bestaat, is er ook geen schittering — terugvallen
+          // op N zou juist een maximale glans opleveren, en dat geeft banen.
+          float hasSpec = step(1e-4, hlen);
 
           float fres = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 4.0);
 
           vec3 col = mix(uDeep, uShallow, clamp(fres * 1.35, 0.0, 1.0));
 
           // maanpad / zonnepad: een scherpe en een brede lob
-          float ndh = max(dot(N, H), 0.0);
+          float ndh = max(dot(N, H), 0.0) * hasSpec;
           float sharp = pow(ndh, 420.0) * 2.6;
           float broad = pow(ndh, 22.0)  * 0.42;
           col += uSpec * (sharp + broad) * uSunPower;
 
           // glinstering: kleine hoogfrequente pieken in het pad
-          float glint = pow(ndh, 90.0) * smoothstep(0.4, 1.0, fbm(p * 3.1 + uTime * 0.6));
+          float glint = pow(ndh, 90.0) * smoothstep(0.35, 1.0, snoise(p * 3.1 + uTime * 0.6));
           col += uSpec * glint * 1.6 * uSparkle * uSunPower;
 
           // schuimrand langs de kade
           float toShore = uShoreZ - vWorld.z;
           float foamBand = smoothstep(5.5, 0.2, toShore) * smoothstep(-1.4, 0.4, toShore);
-          float foamNoise = smoothstep(0.15, 0.75, fbm(vec2(p.x * 0.55, uTime * 0.85)));
+          float foamNoise = smoothstep(0.10, 0.70, snoise(vec2(p.x * 0.55, uTime * 0.85)));
           col = mix(col, uSpec * 0.85 + vec3(0.08), foamBand * foamNoise * 0.55);
 
           // naar de horizon toe oplossen in de nevel
           float dist = length(cameraPosition.xz - p);
           float haze = smoothstep(60.0, 620.0, dist);
           col = mix(col, uFog, haze * 0.94);
+
+          // vangnet: een getal dat niet aan zichzelf gelijk is, is NaN.
+          // Eén zo'n pixel is genoeg om de bloom-pass het hele frame te laten
+          // wissen, dus die filteren we hier weg.
+          if (!(col.r >= 0.0)) col.r = 0.0;
+          if (!(col.g >= 0.0)) col.g = 0.0;
+          if (!(col.b >= 0.0)) col.b = 0.0;
+          col = min(col, vec3(48.0));
 
           // lineair de compositor in — OutputPass doet tonemapping en kleurruimte
           gl_FragColor = vec4(col, 1.0);

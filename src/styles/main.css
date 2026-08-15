@@ -234,14 +234,6 @@ body.is-dawn .vignette { opacity: 0.45; }
 }
 .intro__loading.is-done { opacity: 0; }
 
-.intro__hint {
-  margin: clamp(2.2rem, 6vw, 3.4rem) 0 0;
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  color: var(--ink-faint);
-  animation: fadeUp 1000ms var(--ease) 900ms both;
-}
-
 @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
 @keyframes bob    { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
 @keyframes spin   { to { rotate: 360deg; } }
@@ -508,14 +500,6 @@ body.is-open .chapters { opacity: 1; transform: none; pointer-events: auto; }
   margin-inline: auto;
   text-align: center;
 }
-.letter__body {
-  margin: 0 0 1.3rem;
-  font-family: var(--f-hand);
-  font-size: clamp(1.3rem, 3.2vw, 1.9rem);
-  font-weight: 500;
-  line-height: 1.45;
-  color: var(--cream);
-}
 .letter__sign {
   margin: 2.2rem 0 0;
   font-family: var(--f-hand);
@@ -537,11 +521,6 @@ body.is-open .chapters { opacity: 1; transform: none; pointer-events: auto; }
   color: color-mix(in oklab, var(--cream) 8%, transparent);
   letter-spacing: 0.02em;
   user-select: none;
-}
-.footer__meta {
-  margin: 1rem 0 0;
-  font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--ink-faint);
 }
 
 /* =========================================================

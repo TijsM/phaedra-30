@@ -52,9 +52,9 @@ export default class Sky {
 
           // zon/maan
           float d = max(dot(dir, normalize(uSunDir)), 0.0);
-          float disc = pow(d, uSunSize) * 3.2;
-          float halo = pow(d, 26.0) * 0.55 * uSunPower;
-          float bloom = pow(d, 3.5) * 0.18 * uSunPower;
+          float disc = pow(d, uSunSize) * 2.4;
+          float halo = pow(d, 90.0) * 0.30 * uSunPower;
+          float bloom = pow(d, 8.0) * 0.055 * uSunPower;
           col += uSunColor * (disc + halo + bloom);
 
           // wolkenbanken, alleen laag bij de horizon

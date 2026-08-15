@@ -40,7 +40,7 @@ export default class Camper {
     this.#buildCampfire()
 
     // warm licht dat vanuit de camper naar buiten valt
-    this.interiorLight = new THREE.PointLight(PALETTE.lamp, 0, 16, 2)
+    this.interiorLight = new THREE.PointLight(PALETTE.lamp, 0, 18, 2)
     this.interiorLight.position.set(0, 1.6, -1.6)
     this.group.add(this.interiorLight)
   }
@@ -274,7 +274,7 @@ export default class Camper {
     this.bulbs.instanceMatrix.needsUpdate = true
     this.stringGroup.add(this.bulbs)
 
-    this.stringLight = new THREE.PointLight(0xffcf8a, 0, 14, 2)
+    this.stringLight = new THREE.PointLight(0xffcf8a, 0, 16, 2)
     this.stringLight.position.set(-2, 2.4, -2.6)
     this.stringGroup.add(this.stringLight)
   }
@@ -366,7 +366,7 @@ export default class Camper {
     this.flames.frustumCulled = false
     g.add(this.flames)
 
-    this.fireLight = new THREE.PointLight(0xff7a2a, 0, 13, 2)
+    this.fireLight = new THREE.PointLight(0xff7a2a, 0, 15, 2)
     this.fireLight.position.set(0, 0.55, 0)
     g.add(this.fireLight)
 
@@ -410,21 +410,21 @@ export default class Camper {
     const night = this.nightScale
     const lit = smoothstep(0.15, 0.8, r) * night
     const breathe = 1 + Math.sin(elapsed * 1.7) * 0.05
-    this.mats.glass.emissiveIntensity = lit * 1.35 * breathe
-    this.interiorLight.intensity = lit * 22 * breathe
+    this.mats.glass.emissiveIntensity = lit * 0.55 * breathe
+    this.interiorLight.intensity = lit * 7 * breathe
     this.mats.bulb.emissiveIntensity = lit * 0.25 // koplampen vangen alleen wat gloed
 
     // lichtsnoer flikkert lui
     const strung = smoothstep(0.3, 0.9, r) * night
-    this.bulbMat.emissiveIntensity = strung * (2.4 + Math.sin(elapsed * 2.3) * 0.28)
-    this.stringLight.intensity = strung * 15
+    this.bulbMat.emissiveIntensity = strung * (1.15 + Math.sin(elapsed * 2.3) * 0.16)
+    this.stringLight.intensity = strung * 5
     this.stringGroup.position.y = Math.sin(elapsed * 0.9) * 0.02
 
     // vuur — brandt 's ochtends nog een beetje na
     const fire = smoothstep(0.35, 0.95, r) * (0.25 + night * 0.75)
     this.fireUniforms.uOpacity.value = fire
     const flick = 0.75 + Math.abs(Math.sin(elapsed * 6.1)) * 0.18 + Math.sin(elapsed * 13.7) * 0.09
-    this.fireLight.intensity = fire * 20 * flick
+    this.fireLight.intensity = fire * 8 * flick
 
     // de bus deint heel licht op zijn vering
     this.body.position.y = Math.sin(elapsed * 1.1) * 0.012

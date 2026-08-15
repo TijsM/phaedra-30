@@ -77,7 +77,7 @@ export default class Director {
 
     this.rig = new CameraRig(camera)
 
-    this.bloomStrength = 0.9
+    this.bloomStrength = 0.62
     this.applyState(0)
   }
 
@@ -132,7 +132,7 @@ export default class Director {
     this.scene.fog.far = lerp(500, 700, day)
 
     // bloom is 's nachts het mooist; overdag zou het uitspoelen
-    this.bloomStrength = lerp(1.05, 0.32, day)
+    this.bloomStrength = lerp(0.62, 0.22, day)
   }
 
   /**

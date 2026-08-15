@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { PALETTE, GROUND_Y } from '../config.js'
+import { PALETTE, TABLE_POS } from '../config.js'
 import { clamp, smoothstep, makeRandom } from '../utils/math.js'
 
 /**
@@ -10,7 +10,7 @@ import { clamp, smoothstep, makeRandom } from '../utils/math.js'
 export default class Breakfast {
   constructor() {
     this.group = new THREE.Group()
-    this.group.position.set(8.2, GROUND_Y, 32.4)
+    this.group.position.set(...TABLE_POS)
     this.group.rotation.y = -0.5
     this.reveal = 0
     this.items = []
